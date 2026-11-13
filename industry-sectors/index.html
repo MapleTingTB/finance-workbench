@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8">
+<title>行业板块 · 每天 14:00 更新</title>
+<style>
+  :root{
+    --bg:#f4f6f9; --card:#fff; --ink:#1d2430; --ink2:#586273; --ink3:#9099a8;
+    --line:#eaeef3; --brand:#2b4bd8; --brand-soft:#eef1fd;
+    --up:#d92b2b; --up-bg:#fdecec; --down:#128a4c; --down-bg:#e7f5ed;
+    --risk:#c9740a; --risk-bg:#fff4e3; --risk-line:#f0be72;
+    --neutral:#4a6fa5; --neutral-bg:#eef3fa;
+    --shadow:0 2px 10px rgba(29,36,48,.05);
+  }
+  *{box-sizing:border-box;max-width:100%}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);overflow-x:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    font-size:15px;line-height:1.72;-webkit-font-smoothing:antialiased}
+  .app{max-width:480px;margin:0 auto;padding:14px 14px 40px;min-height:100vh;background:var(--bg)}
+  h1,h2,h3,p{margin:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+
+  /* ---------- 顶部 ---------- */
+  .top{margin-bottom:12px}
+  .brand-row{display:flex;align-items:center;gap:11px;padding:16px 16px 12px}
+  .logo{width:40px;height:40px;flex:0 0 40px;border-radius:12px;
+    background:linear-gradient(135deg,#3a5be0,#2b4bd8);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800}
+  .brand-txt{flex:1;min-width:0}
+  .brand-txt h1{font-size:19px;font-weight:800;letter-spacing:.3px;line-height:1.3}
+  .brand-txt p{font-size:12px;color:var(--ink3);margin-top:2px}
+  .badge{flex:0 0 auto;background:var(--brand-soft);color:var(--brand);
+    border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .date-row{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;
+    padding:0 16px 14px;font-size:12.5px;color:var(--ink2)}
+  .date-row .dot{width:6px;height:6px;border-radius:50%;background:var(--up);
+    display:inline-block;margin-right:5px;vertical-align:1px}
+  .cd{margin-left:auto;color:var(--brand);font-weight:600;font-variant-numeric:tabular-nums}
+
+  /* ---------- 通用小标题 ---------- */
+  .sec{margin-bottom:12px}
+  .sec-h{display:flex;align-items:baseline;gap:8px;padding:2px 4px 9px;flex-wrap:wrap}
+  .sec-h h2{font-size:15px;font-weight:800}
+  .sec-h .sub{font-size:11.5px;color:var(--ink3);margin-left:auto}
+  .basis{background:var(--neutral-bg);border:1px solid #dde7f5;border-radius:11px;
+    padding:10px 12px;font-size:11.8px;color:var(--ink2);line-height:1.7;
+    margin-bottom:11px;word-break:break-word}
+
+  /* ---------- 颜色图例 ---------- */
+  .legend{padding:14px 14px 12px}
+  .legend-t{font-size:12px;color:var(--ink3);margin-bottom:10px;font-weight:600}
+  .lg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .lg{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;
+    font-size:12.5px;font-weight:600;color:var(--ink2)}
+  .lg i{width:11px;height:11px;border-radius:3px;flex:0 0 11px}
+  .lg.up{background:var(--up-bg);color:var(--up)} .lg.up i{background:var(--up)}
+  .lg.down{background:var(--down-bg);color:var(--down)} .lg.down i{background:var(--down)}
+  .lg.risk{background:var(--risk-bg);color:var(--risk)} .lg.risk i{background:var(--risk)}
+  .lg.neutral{background:var(--neutral-bg);color:var(--neutral)} .lg.neutral i{background:var(--neutral)}
+
+  /* ---------- 今日一句话 ---------- */
+  .today{padding:15px 16px;background:linear-gradient(135deg,#eef1fd,#f7f9ff);border:1px solid #dbe2fb}
+  .today .k{font-size:11.5px;color:var(--brand);font-weight:700;margin-bottom:6px}
+  .today .v{font-size:15px;font-weight:700;line-height:1.7;color:#1f2a4d;word-break:break-word}
+
+  /* ---------- 筛选 chip ---------- */
+  .filters{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:11px}
+  .f-chip{border:1px solid var(--line);background:var(--card);color:var(--ink2);
+    border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:600;cursor:pointer;transition:.15s}
+  .f-chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+
+  /* ---------- TOP5 排名卡片 ---------- */
+  .rk{margin-bottom:11px;overflow:hidden}
+  .rk-top{display:flex;align-items:center;gap:8px;padding:13px 14px 0;flex-wrap:wrap}
+  .rk-no{font-size:12px;font-weight:800;color:#fff;background:var(--ink3);
+    border-radius:6px;padding:3px 8px;font-variant-numeric:tabular-nums}
+  .rk-name{font-size:16px;font-weight:800;line-height:1.35;word-break:break-word}
+  .rk-score{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--brand);
+    background:var(--brand-soft);border-radius:999px;padding:3px 10px;white-space:nowrap}
+  .rk-line{font-size:11.5px;color:var(--ink3);padding:5px 14px 0;line-height:1.6;word-break:break-word}
+
+  .val-tag{font-size:11px;font-weight:800;border-radius:6px;padding:3px 9px;white-space:nowrap}
+  .val-tag.risk{background:var(--risk-bg);color:var(--risk)}
+  .val-tag.neutral{background:var(--neutral-bg);color:var(--neutral)}
+  .val-tag.down{background:var(--down-bg);color:var(--down)}
+  .rk-val{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 14px 0}
+  .rk-val .vt{font-size:11.5px;color:var(--ink2);font-weight:600;word-break:break-word}
+  .val-bar{height:6px;border-radius:4px;background:#eef1f5;margin:8px 14px 0;overflow:hidden}
+  .val-bar i{display:block;height:100%;border-radius:4px;min-width:10px}
+  .val-bar.risk i{background:var(--risk)}
+  .val-bar.neutral i{background:var(--neutral)}
+  .val-bar.down i{background:var(--down)}
+  .val-cap{font-size:10.5px;color:var(--ink3);padding:4px 14px 0;line-height:1.6;word-break:break-word}
+
+  .rk-f{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:11px 14px 0}
+  .rk-cell{border:1px solid var(--line);border-radius:11px;padding:10px 11px;background:#fbfcfe;min-width:0}
+  .rk-cell .fn{font-size:11px;color:var(--ink3);font-weight:700}
+  .rk-cell .fv{font-size:14px;font-weight:800;margin-top:3px;line-height:1.45;
+    font-variant-numeric:tabular-nums;word-break:break-word}
+  .rk-cell .fnote{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.6;word-break:break-word}
+  .rk-cell.t-up .fv{color:var(--up)}
+  .rk-cell.t-down .fv{color:var(--down)}
+  .rk-cell.t-neutral .fv{color:var(--neutral)}
+
+  .rk-chart{border:1px solid var(--line);border-radius:11px;padding:8px 8px 4px;
+    background:#fbfcfe;margin:11px 14px 0}
+  .rk-chart svg{display:block;width:100%;height:auto}
+  .rk-legend{display:flex;gap:11px;flex-wrap:wrap;font-size:10.5px;color:var(--ink3);padding:2px 2px 4px}
+  .rk-legend i{display:inline-block;width:10px;height:3px;border-radius:2px;vertical-align:middle;margin-right:3px}
+  .rk-src{font-size:10.8px;color:var(--ink3);line-height:1.65;padding:9px 14px 13px;
+    border-top:1px dashed var(--line);margin-top:11px;word-break:break-all}
+
+  /* ---------- 三段式 利好 / 爆雷 卡片 ---------- */
+  .sgn{margin-bottom:11px;overflow:hidden}
+  .sgn-good{border-left:4px solid var(--up)}
+  .sgn-bad{border-left:4px solid var(--risk)}
+  .sgn-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:13px 14px 0}
+  .sgn-no{font-size:11px;font-weight:800;color:#fff;background:var(--ink3);
+    border-radius:6px;padding:2px 7px;font-variant-numeric:tabular-nums}
+  .sgn-theme{font-size:11.5px;font-weight:700;color:var(--brand);
+    background:var(--brand-soft);border-radius:6px;padding:3px 8px}
+  .sgn-time{font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums}
+  .sgn-imp{margin-left:auto;font-size:11px;font-weight:800;border-radius:6px;padding:3px 9px;white-space:nowrap}
+  .sgn-good .sgn-imp{color:var(--up);background:var(--up-bg)}
+  .sgn-bad .sgn-imp{color:var(--risk);background:var(--risk-bg)}
+
+  .seg{margin:11px 12px 0;padding:10px 12px;border-radius:10px;background:#f7f9fc;border-left:3px solid var(--line)}
+  .seg-k{display:block;font-size:11.5px;font-weight:800;margin-bottom:4px;letter-spacing:.2px}
+  .seg-k i{display:inline-block;width:8px;height:8px;border-radius:50%;
+    background:currentColor;margin-right:6px;vertical-align:1px;opacity:.9}
+  .seg p{font-size:13.6px;line-height:1.78;color:var(--ink);word-break:break-word}
+  .s-name{background:#f3f6fd;border-left-color:#9db4ee} .s-name .seg-k{color:var(--brand)}
+  .s-name p{font-size:15.5px;font-weight:800}
+  .s-msg{background:#f6f8fb;border-left-color:#b9c4d4} .s-msg .seg-k{color:var(--ink2)}
+  .s-opp{background:var(--down-bg);border-left-color:#8fd0ae} .s-opp .seg-k{color:var(--down)}
+  .s-opp p{font-weight:600}
+  .sgn-bad .s-opp{background:var(--neutral-bg);border-left-color:#b9cbe6}
+  .sgn-bad .s-opp .seg-k{color:var(--neutral)}
+
+  .risk-note{position:relative;margin:10px 12px 0;padding:10px 12px 10px 34px;
+    border-radius:10px;background:var(--risk-bg);border:1px solid var(--risk-line);
+    color:#8a5208;font-size:12.8px;line-height:1.7;font-weight:600;word-break:break-word}
+  .risk-note::before{content:"!";position:absolute;left:11px;top:12px;
+    width:16px;height:16px;border-radius:50%;background:var(--risk);color:#fff;
+    font-size:11px;font-weight:800;line-height:16px;text-align:center}
+  .sgn-src{font-size:10.8px;color:var(--ink3);line-height:1.65;padding:10px 14px 13px;
+    border-top:1px dashed var(--line);margin-top:11px;word-break:break-all}
+
+  /* ---------- 官方渠道 / 追溯 ---------- */
+  .chan{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .ch{display:flex;align-items:center;gap:6px;padding:10px 9px;border-radius:11px;
+    background:var(--card);border:1px solid var(--line)}
+  .ch .st{width:7px;height:7px;border-radius:50%;flex:0 0 7px}
+  .ch.ok .st{background:var(--down)} .ch.partial .st{background:var(--risk)}
+  .ch .nm{font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+  .ch .sm{font-size:10px;color:var(--ink3);margin-left:auto}
+  .trace{margin-top:9px;padding:11px 12px;border-radius:11px;background:#fbfcfe;border:1px solid var(--line)}
+  .trace .tr{display:flex;gap:8px;font-size:11px;color:var(--ink2);padding:5px 0;
+    border-bottom:1px dashed var(--line);line-height:1.6}
+  .trace .tr:last-child{border-bottom:0}
+  .trace .tp{flex:0 0 58px;color:var(--ink3);font-weight:700}
+  .trace .tn{flex:1;word-break:break-word}
+
+  /* ---------- 页脚 ---------- */
+  .disclaimer{margin-top:14px;padding:13px 14px;border-radius:12px;background:var(--risk-bg);
+    border:1px solid var(--risk-line);color:#8a5208;font-size:12px;line-height:1.75;word-break:break-word}
+  .foot{margin-top:12px;padding:0 4px;color:var(--ink3);font-size:11px;line-height:1.8}
+  .foot b{color:var(--ink2)} .foot .ln{display:block;word-break:break-word;margin-bottom:3px}
+  .empty{padding:26px 16px;text-align:center;color:var(--ink3);font-size:13px}
+
+  @media(max-width:360px){.app{padding:10px 10px 32px}.rk-name{font-size:15px}.seg p{font-size:13px}}
+  @media(min-width:520px){body{background:#e9edf3}.app{box-shadow:0 0 30px rgba(29,36,48,.08)}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- 顶部 -->
+  <header class="card top">
+    <div class="brand-row">
+      <div class="logo">板</div>
+      <div class="brand-txt">
+        <h1>行业板块</h1>
+        <p>每天 14:00 更新 · 综合排名版</p>
+      </div>
+      <div class="badge">14:00 更新</div>
+    </div>
+    <div class="date-row">
+      <span><i class="dot"></i><span id="d-date">—</span></span>
+      <span class="cd" id="d-cd">—</span>
+    </div>
+  </header>
+
+  <!-- 颜色图例 -->
+  <section class="card legend sec">
+    <div class="legend-t">先看颜色，一眼就懂</div>
+    <div class="lg-grid" id="legend"></div>
+  </section>
+
+  <!-- 今日一句话 -->
+  <section class="card today sec">
+    <div class="k">今日一句话</div>
+    <div class="v" id="today-action">—</div>
+  </section>
+
+  <!-- 综合排名 TOP5 -->
+  <section class="sec">
+    <div class="sec-h"><h2>综合排名 · 前 5 板块</h2><span class="sub" id="asof">—</span></div>
+    <div class="basis" id="ranking-basis">—</div>
+    <div class="filters" id="filters"></div>
+    <div id="top-list"></div>
+  </section>
+
+  <!-- 利好板块 -->
+  <section class="sec">
+    <div class="sec-h"><h2>政策与行业动向 · 利好</h2><span class="sub" id="good-count">—</span></div>
+    <div id="good-list"></div>
+  </section>
+
+  <!-- 爆雷板块 -->
+  <section class="sec">
+    <div class="sec-h"><h2>板块爆雷 · 需留意</h2><span class="sub" id="bad-count">—</span></div>
+    <div id="bad-list"></div>
+  </section>
+
+  <!-- 数据来源 -->
+  <section class="sec">
+    <div class="sec-h"><h2>消息来自哪</h2><span class="sub">主流财经网站</span></div>
+    <div class="chan" id="channels"></div>
+    <div class="trace" id="trace"></div>
+  </section>
+
+  <!-- 页脚 -->
+  <div class="disclaimer" id="disclaimer">—</div>
+  <div class="foot">
+    <span class="ln"><b>数据来源：</b><span id="foot-source">—</span></span>
+    <span class="ln"><b>更新规则：</b>每天 14:00（Asia/Shanghai）自动更新；周末与法定节假日顺延至下一交易日。由采集脚本取主流网站真实数据，生成器按排名与三段式规则刷新本页。</span>
+    <span class="ln"><b>阅读提示：</b>红＝上涨/利好，绿＝下跌，橙＝风险提示/估值偏高，蓝灰＝中性/估值合理；估值偏低用绿底标注「便宜」，不代表会涨。排名是相对强弱，不等于买入建议。</span>
+  </div>
+</div>
+
+<!-- 结构化数据（由 scripts/generate_briefing.py 每日 14:00 注入） -->
+<script id="briefing-data" type="application/json">{"meta":{"date":"2026-11-13","weekday":"星期五","updateTime":"14:00","dataTime":"2026-11-13 收盘（2026-11-13 交易时段/盘后生成）","generatedAt":"2026-11-13 22:54","lastTradeDate":"2026-11-13","marketStatus":"交易时段/盘后","dataSource":"同花顺（申万行业清单 · 板块日K · 成交额）· 新浪财经（指数与涨跌家数）· 东方财富 datacenter-web（2026三季报 · 行业分类 · 行业估值）· 东方财富（7×24快讯）· 万得 Wind（宏观与研报口径）· 雪球（观点热度）","dataMode":"live","promptVersion":"v1 · 行业板块版","topCount":5,"goodCount":3,"badCount":3,"todayAction":"综合排名前三：传媒、石油石化、纺织服饰；政策利好看 电力设备、非银金融、公用事业，需留意 房地产、农林牧渔、传媒。排名只是相对强弱——宽基定投照常，别追主题基金，首付池不动。","rankingBasis":"营收同比(25%) + 近一季度涨幅(30%) + 量能(20%) + 热度(25%)；热度=主力净流入+量能放大+上涨天数"},"legend":[{"color":"up","label":"上涨 / 利好"},{"color":"down","label":"下跌"},{"color":"risk","label":"风险提示 / 估值偏高"},{"color":"neutral","label":"中性 / 估值合理"}],"top5":[{"rank":1,"name":"传媒","score":66.0,"factors":[{"name":"三季报营收同比","value":"—","tone":"down","note":"板块成分股 0 家合计营收 0.0 亿"},{"name":"近一季度涨幅","value":"+1.75%","tone":"up","note":"板块指数近 60 个交易日涨跌"},{"name":"量能","value":"量比 1.19","tone":"up","note":"当日成交额 112.1 亿 / 20 日均 119.2 亿"},{"name":"热度","value":"63.3/100","tone":"up","note":"主力 5 日净流入 — + 量能 + 上涨天数"}],"valuation":{"pe":26.61,"pb":3.78,"percentile":9,"label":"估值偏低","tone":"down","basis":"近一年 PE 分位 9%（250 个交易日）","text":"PE 26.61 倍 · PB 3.78 倍；估值偏低，相对便宜，但不代表马上会涨"},"chart":{"labels":["09-28","09-29","09-30","10-08","10-09","10-12","10-13","10-14","10-15","10-16","10-19","10-20","10-21","10-22","10-23","10-26","10-27","10-28","10-29","10-30","11-02","11-03","11-04","11-05","11-06","11-09","11-10","11-11","11-12","11-13"],"close":[8638.77,8767.66,8730.66,8588.93,8888.97,8965.6,9069.37,9306.48,9120.65,8868.59,8881.62,8979.21,8955.76,8546.33,8854.76,9146.25,8849.56,9041.84,8931.05,8362.61,9107.52,9239.75,9464.15,9662.56,9382.27,9292.4,9739.36,10034.74,9554.43,9500.84],"amount":[58.4,47.8,44.9,49.3,75.6,65.0,78.5,126.3,123.8,102.3,76.4,73.3,96.0,83.2,107.1,116.6,85.3,99.1,91.6,104.6,149.8,157.9,162.4,157.3,112.9,103.0,123.1,195.1,177.0,112.1]},"components":{"营收增速":50.0,"季度涨幅":65.0,"量能":90.9,"热度":63.3},"oneLiner":"传媒综合 66.0 分排第 1；三季报营收同比 —、近一季度 +1.75%、估值偏低。"},{"rank":2,"name":"石油石化","score":59.6,"factors":[{"name":"三季报营收同比","value":"—","tone":"down","note":"板块成分股 0 家合计营收 0.0 亿"},{"name":"近一季度涨幅","value":"-4.98%","tone":"down","note":"板块指数近 60 个交易日涨跌"},{"name":"量能","value":"量比 1.23","tone":"up","note":"当日成交额 18.8 亿 / 20 日均 14.4 亿"},{"name":"热度","value":"65.0/100","tone":"up","note":"主力 5 日净流入 — + 量能 + 上涨天数"}],"valuation":{"pe":17.15,"pb":1.34,"percentile":38,"label":"估值合理","tone":"neutral","basis":"近一年 PE 分位 38%（250 个交易日）","text":"PE 17.15 倍 · PB 1.34 倍；估值合理，不便宜也不贵"},"chart":{"labels":["09-28","09-29","09-30","10-08","10-09","10-12","10-13","10-14","10-15","10-16","10-19","10-20","10-21","10-22","10-23","10-26","10-27","10-28","10-29","10-30","11-02","11-03","11-04","11-05","11-06","11-09","11-10","11-11","11-12","11-13"],"close":[2506.4,2510.69,2515.73,2534.64,2571.2,2529.93,2565.44,2503.75,2443.74,2458.92,2432.92,2432.3,2435.59,2386.56,2396.1,2403.56,2343.52,2344.87,2329.77,2285.23,2336.53,2378.78,2388.24,2421.6,2408.86,2432.52,2446.78,2442.28,2425.39,2395.97],"amount":[12.3,8.6,8.2,10.6,13.6,10.6,11.9,10.2,13.9,14.4,13.1,9.8,9.5,10.2,12.5,10.8,9.4,8.9,13.0,16.3,16.3,17.3,18.9,17.1,16.2,18.1,17.4,15.7,18.7,18.8]},"components":{"营收增速":50.0,"季度涨幅":36.2,"量能":100.0,"热度":65.0},"oneLiner":"石油石化综合 59.6 分排第 2；三季报营收同比 —、近一季度 -4.98%、估值合理。"},{"rank":3,"name":"纺织服饰","score":50.7,"factors":[{"name":"三季报营收同比","value":"—","tone":"down","note":"板块成分股 0 家合计营收 0.0 亿"},{"name":"近一季度涨幅","value":"-7.64%","tone":"down","note":"板块指数近 60 个交易日涨跌"},{"name":"量能","value":"量比 1.14","tone":"up","note":"当日成交额 89.2 亿 / 20 日均 71.4 亿"},{"name":"热度","value":"59.7/100","tone":"neutral","note":"主力 5 日净流入 — + 量能 + 上涨天数"}],"valuation":{"pe":46.56,"pb":2.7,"percentile":38,"label":"估值合理","tone":"neutral","basis":"近一年 PE 分位 38%（250 个交易日）","text":"PE 46.56 倍 · PB 2.70 倍；估值合理，不便宜也不贵"},"chart":{"labels":["09-28","09-29","09-30","10-08","10-09","10-12","10-13","10-14","10-15","10-16","10-19","10-20","10-21","10-22","10-23","10-26","10-27","10-28","10-29","10-30","11-02","11-03","11-04","11-05","11-06","11-09","11-10","11-11","11-12","11-13"],"close":[2847.26,2857.2,2843.09,2845.01,2895.81,2839.24,2861.98,2837.83,2760.05,2759.68,2738.28,2749.97,2740.23,2665.82,2669.27,2673.79,2623.85,2645.23,2594.0,2540.3,2598.15,2607.2,2621.05,2670.5,2627.49,2629.44,2671.62,2708.03,2679.46,2635.61],"amount":[70.5,62.6,53.7,64.7,88.9,70.3,73.6,70.9,74.8,61.0,59.4,49.7,49.7,60.2,74.1,62.4,62.0,63.9,59.5,67.0,81.8,72.6,102.2,84.3,72.7,72.7,75.5,75.0,94.7,89.2]},"components":{"营收增速":50.0,"季度涨幅":24.9,"量能":79.1,"热度":59.7},"oneLiner":"纺织服饰综合 50.7 分排第 3；三季报营收同比 —、近一季度 -7.64%、估值合理。"},{"rank":4,"name":"通信","score":49.4,"factors":[{"name":"三季报营收同比","value":"+13.30%","tone":"up","note":"板块成分股 132 家合计营收 20908.5 亿"},{"name":"近一季度涨幅","value":"-13.46%","tone":"down","note":"板块指数近 60 个交易日涨跌"},{"name":"量能","value":"量比 1.04","tone":"neutral","note":"当日成交额 140.4 亿 / 20 日均 133.4 亿"},{"name":"热度","value":"52.8/100","tone":"neutral","note":"主力 5 日净流入 — + 量能 + 上涨天数"}],"valuation":{"pe":23.6,"pb":1.79,"percentile":82,"label":"估值偏高","tone":"risk","basis":"近一年 PE 分位 82%（250 个交易日）","text":"PE 23.60 倍 · PB 1.79 倍；估值偏高，偏贵，别追高"},"chart":{"labels":["09-28","09-29","09-30","10-08","10-09","10-12","10-13","10-14","10-15","10-16","10-19","10-20","10-21","10-22","10-23","10-26","10-27","10-28","10-29","10-30","11-02","11-03","11-04","11-05","11-06","11-09","11-10","11-11","11-12","11-13"],"close":[2580.24,2603.63,2513.97,2478.45,2498.67,2467.99,2485.48,2453.57,2371.8,2363.98,2372.15,2419.71,2449.55,2355.91,2415.85,2428.41,2362.83,2409.95,2344.21,2242.25,2328.35,2273.84,2321.52,2413.43,2369.29,2350.54,2407.66,2457.12,2397.26,2383.96],"amount":[113.3,93.5,86.4,102.0,121.0,92.0,98.8,106.1,112.9,97.2,90.8,103.3,134.5,137.3,159.3,124.4,115.8,134.4,124.4,123.2,139.7,136.9,144.4,162.6,143.7,128.0,121.7,143.2,159.8,140.4]},"components":{"营收增速":100.0,"季度涨幅":0.0,"量能":56.1,"热度":52.8},"oneLiner":"通信综合 49.4 分排第 4；三季报营收同比 +13.30%、近一季度 -13.46%、估值偏高。"},{"rank":5,"name":"商贸零售","score":48.9,"factors":[{"name":"三季报营收同比","value":"—","tone":"down","note":"板块成分股 0 家合计营收 0.0 亿"},{"name":"近一季度涨幅","value":"-2.74%","tone":"down","note":"板块指数近 60 个交易日涨跌"},{"name":"量能","value":"量比 1.00","tone":"neutral","note":"当日成交额 137.4 亿 / 20 日均 131.5 亿"},{"name":"热度","value":"53.0/100","tone":"neutral","note":"主力 5 日净流入 — + 量能 + 上涨天数"}],"valuation":{"pe":69.23,"pb":2.99,"percentile":41,"label":"估值合理","tone":"neutral","basis":"近一年 PE 分位 41%（250 个交易日）","text":"PE 69.23 倍 · PB 2.99 倍；估值合理，不便宜也不贵"},"chart":{"labels":["09-28","09-29","09-30","10-08","10-09","10-12","10-13","10-14","10-15","10-16","10-19","10-20","10-21","10-22","10-23","10-26","10-27","10-28","10-29","10-30","11-02","11-03","11-04","11-05","11-06","11-09","11-10","11-11","11-12","11-13"],"close":[1847.49,1853.24,1866.53,1853.37,1911.34,1863.5,1896.45,1861.08,1808.7,1811.66,1781.1,1785.77,1786.14,1748.47,1786.01,1808.24,1815.11,1817.69,1772.66,1727.11,1780.67,1790.02,1797.44,1837.26,1799.02,1813.62,1832.2,1834.86,1836.05,1790.71],"amount":[94.7,79.0,87.1,88.0,134.4,120.1,137.3,131.6,96.8,108.2,87.4,84.6,81.5,89.3,131.8,123.7,137.3,167.1,146.4,134.3,158.7,164.7,162.7,169.4,135.2,125.0,120.4,130.9,142.4,137.4]},"components":{"营收增速":50.0,"季度涨幅":45.8,"量能":46.8,"热度":53.0},"oneLiner":"商贸零售综合 48.9 分排第 5；三季报营收同比 —、近一季度 -2.74%、估值合理。"}],"good":[{"no":1,"sector":"电力设备","theme":"官方政策","news":"有关部门发布了新规划或试点，相当于给这个行业「派活」，后续的订单和项目更容易落地。","opportunity":"这条属于官方政策，直接受益的是电力设备里的光伏、储能与电池。机会主要在中期订单与政策支持，不是今天买明天涨。普通家庭买的是宽基指数基金和债基，宽基里本来就含了相关权重，所以不用追主题基金、也不用临时加钱；定投按原计划扣款，买房首付池继续放存款和短债。","risk":"","rawTitle":"《“十五五”新型储能实施方案》发布 23只概念股业绩有望持续高增长","time":"11-13 18:54","source":"东方财富 7×24"},{"no":2,"sector":"非银金融","theme":"官方政策","news":"有关部门发布了新规划或试点，相当于给这个行业「派活」，后续的订单和项目更容易落地。","opportunity":"这条属于官方政策，直接受益的是非银金融里的券商与资本市场。机会主要在中期订单与政策支持，不是今天买明天涨。普通家庭买的是宽基指数基金和债基，宽基里本来就含了相关权重，所以不用追主题基金、也不用临时加钱；定投按原计划扣款，买房首付池继续放存款和短债。","risk":"","rawTitle":"香港金管局与香港证监会合办研讨会 推动香港代币化发展并推广Ensemble项目合作机遇","time":"11-12 16:22","source":"东方财富 7×24"},{"no":3,"sector":"公用事业","theme":"官方政策","news":"有关部门发布了新规划或试点，相当于给这个行业「派活」，后续的订单和项目更容易落地。","opportunity":"这条属于官方政策，直接受益的是公用事业里的电力与机场。机会主要在中期订单与政策支持，不是今天买明天涨。普通家庭买的是宽基指数基金和债基，宽基里本来就含了相关权重，所以不用追主题基金、也不用临时加钱；定投按原计划扣款，买房首付池继续放存款和短债。","risk":"","rawTitle":"美股核电股Oklo与Centrus为俄亥俄州Aurora部署锁定燃料供应","time":"11-12 20:31","source":"东方财富 7×24"}],"bad":[{"no":1,"sector":"房地产","theme":"行业数据下滑","news":"销量或营收的同比数字在往下走，终端需求还没起来，相关公司业绩短期承压。","opportunity":"这条对房地产是短期利空：销量或营收的同比数字在往下走，终端需求还没起来，相关公司业绩短期承压。「机会」要分两层看——一是别在消息日恐慌赎回，宽基本身是分散的；二是超跌后估值会更便宜，但普通家庭不建议去赌反弹，至少等销量或订单数据连续 2-3 个月企稳再说。眼下做法：不抄底、不加仓相关主题，保持股债比例不动。汽车和新能源主题基金波动大，别拿它当宽基定投的替代品。","risk":"别把「跌多了」当成机会：爆雷消息常会连续发酵，主题基金波动远大于宽基。首付池不进权益，债基也不保本。","rawTitle":"房地产板块震荡回落 深物业A跌停","time":"11-13 09:43","source":"东方财富 7×24"},{"no":2,"sector":"农林牧渔","theme":"行业数据下滑","news":"销量或营收的同比数字在往下走，终端需求还没起来，相关公司业绩短期承压。","opportunity":"这条对农林牧渔是短期利空：销量或营收的同比数字在往下走，终端需求还没起来，相关公司业绩短期承压。「机会」要分两层看——一是别在消息日恐慌赎回，宽基本身是分散的；二是超跌后估值会更便宜，但普通家庭不建议去赌反弹，至少等销量或订单数据连续 2-3 个月企稳再说。眼下做法：不抄底、不加仓相关主题，保持股债比例不动。汽车和新能源主题基金波动大，别拿它当宽基定投的替代品。","risk":"别把「跌多了」当成机会：爆雷消息常会连续发酵，主题基金波动远大于宽基。首付池不进权益，债基也不保本。","rawTitle":"11月13日全国农产品批发市场猪肉平均价格为14.79元/公斤 比昨天下降0.4%","time":"11-13 14:46","source":"东方财富 7×24"},{"no":3,"sector":"传媒","theme":"监管与贸易风险","news":"外部调查、限制或需求放缓的警告，可能压住订单和估值，波动会比平时大。","opportunity":"这条对传媒是短期利空：外部调查、限制或需求放缓的警告，可能压住订单和估值，波动会比平时大。「机会」要分两层看——一是别在消息日恐慌赎回，宽基本身是分散的；二是超跌后估值会更便宜，但普通家庭不建议去赌反弹，至少等销量或订单数据连续 2-3 个月企稳再说。眼下做法：不抄底、不加仓相关主题，保持股债比例不动。外部限制何时落地、影响多大都不确定，别赌「利空出尽」。","risk":"别把「跌多了」当成机会：爆雷消息常会连续发酵，主题基金波动远大于宽基。首付池不进权益，债基也不保本。","rawTitle":"新华传媒跌停 公司再度提示交易风险","time":"11-13 10:35","source":"东方财富 7×24"}],"channels":[{"short":"东方财富","status":"ok"},{"short":"万得 Wind","status":"ok"},{"short":"雪球","status":"ok"}],"trace":[{"provider":"同花顺","endpoint":"申万一级行业板块清单","url":"https://q.10jqka.com.cn/thshy/","status":"ok","note":"按总市值排序逐页筛出 26 个一级行业","count":null,"fetchedAt":"2026-11-13 22:53:27"},{"provider":"同花顺","endpoint":"板块日K 65根","url":"https://d.10jqka.com.cn/v6/line/bk_/01/last.js","status":"ok","note":"成功 26/26 个板块","count":26,"fetchedAt":"2026-11-13 22:53:29"},{"provider":"兼容层(无等价源·如实降级)","endpoint":"板块历史资金流(主力净流入)","url":"无等价公开源·已降级","status":"ok","note":"成功 26/26 个板块","count":26,"fetchedAt":"2026-11-13 22:53:29"},{"provider":"东方财富 datacenter-web","endpoint":"2026-09-30 三季报业绩报表","url":"https://datacenter-web.eastmoney.com/api/data/v1/get","status":"ok","note":"分 12 页取全 A 股营收与营收同比","count":5797,"fetchedAt":"2026-11-13 22:53:32"},{"provider":"东方财富 datacenter-web","endpoint":"板块成分股 + 三季报营收聚合","url":"https://datacenter-web.eastmoney.com/api/data/v1/get","status":"ok","note":"3/14 个候选板块取得季度营收与同比","count":null,"fetchedAt":"2026-11-13 22:53:41"},{"provider":"东方财富 datacenter-web","endpoint":"行业估值当日快照 PE/PB/PS","url":"https://datacenter-web.eastmoney.com/api/data/v1/get","status":"ok","note":"2026-11-13 共 127 个申万行业估值","count":127,"fetchedAt":"2026-11-13 22:53:41"},{"provider":"东方财富 datacenter-web","endpoint":"行业 PE 一年分位与估值高低","url":"https://datacenter-web.eastmoney.com/api/data/v1/get","status":"ok","note":"14/14 个候选板块完成估值判定","count":14,"fetchedAt":"2026-11-13 22:53:44"},{"provider":"东方财富","endpoint":"7×24 快讯(政策/爆雷线索)","url":"https://np-listapi.eastmoney.com/comm/web/getFastNewsList","status":"ok","note":"翻页 6 批取 1198 条，覆盖 2026-11-12 14:11 → 2026-11-13 22:42","count":1198,"fetchedAt":"2026-11-13 22:54:36"},{"provider":"万得 Wind","endpoint":"Wind 官网(宏观与研报口径)","url":"https://www.wind.com.cn/","status":"ok","note":"HTTP 200，页面 8833 字符","count":null,"fetchedAt":"2026-11-13 22:54:36"},{"provider":"雪球","endpoint":"雪球行情中心(观点与热度)","url":"https://xueqiu.com/hq","status":"ok","note":"HTTP 200，页面 2426 字符","count":null,"fetchedAt":"2026-11-13 22:54:36"}],"disclaimer":"本内容由 AI 基于官方发布与公开行情、新闻整理生成，仅供参考，不构成任何投资建议或具体产品推荐。排名是相对强弱，不等于买入建议；投资有风险，决策需谨慎。"}</script>
+<script>
+(function () {
+  "use strict";
+  var D = {};
+  try { D = JSON.parse(document.getElementById("briefing-data").textContent || "{}"); }
+  catch (e) { D = {}; }
+  if (!D || !D.meta) {
+    document.getElementById("top-list").innerHTML =
+      '<div class="card empty">简报数据尚未生成，请先运行<br>scripts/generate_briefing.py</div>';
+    return;
+  }
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  };
+  var M = D.meta || {}, TOP = D.top5 || [], GOOD = D.good || [], BAD = D.bad || [];
+
+  /* ---------- 顶部 ---------- */
+  $("d-date").textContent = (M.date || "—") + " " + (M.weekday || "");
+  $("asof").textContent = "数据 " + (M.dataTime || "—");
+  $("foot-source").textContent = M.dataSource || "—";
+  $("disclaimer").textContent = String(D.disclaimer || "").replace(/^[^\u4e00-\u9fa5]+/, "");
+  $("ranking-basis").textContent = "排名口径：" + (M.rankingBasis || "—") +
+    "。行情基准 " + (M.lastTradeDate || "—") + " 收盘，估值取近一年 PE 分位。";
+  $("good-count").textContent = GOOD.length + " 个板块 · 不超过 3 个";
+  $("bad-count").textContent = BAD.length + " 个板块 · 不超过 3 个";
+
+  function tick() {
+    var now = new Date();
+    var next = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 0, 0, 0);
+    if (now >= next) next.setDate(next.getDate() + 1);
+    var diff = Math.max(0, Math.floor((next - now) / 1000));
+    var h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
+    $("d-cd").textContent = "距下次更新 " + h + " 时 " + m + " 分 " + s + " 秒";
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- 颜色图例 ---------- */
+  $("legend").innerHTML = (D.legend || []).map(function (x) {
+    return '<div class="lg ' + esc(x.color) + '"><i></i>' + esc(x.label) + "</div>";
+  }).join("");
+  $("today-action").textContent = M.todayAction || "";
+
+  /* ---------- 近 30 日走势 + 成交额 SVG ---------- */
+  function drawTrend(c) {
+    var L = c.labels || [], C = c.close || [], A = c.amount || [];
+    if (L.length < 3 || C.length !== L.length) return "";
+    var W = 330, H = 122, x0 = 4, x1 = 326, y0 = 8, y1 = 80, vy0 = 92, vy1 = 114;
+    var mn = Math.min.apply(null, C), mx = Math.max.apply(null, C);
+    var pad = (mx - mn) * 0.1 || 1; mn -= pad; mx += pad;
+    function X(i) { return x0 + (x1 - x0) * i / (L.length - 1); }
+    function Y(v) { return y1 - (y1 - y0) * (v - mn) / (mx - mn); }
+    var g = "";
+    for (var k = 0; k <= 3; k++) {
+      var yy = (y0 + (y1 - y0) * k / 3).toFixed(1);
+      g += '<line x1="' + x0 + '" y1="' + yy + '" x2="' + x1 + '" y2="' + yy + '" stroke="#eef1f6" stroke-width="1"/>';
+    }
+    var d = "";
+    for (var i = 0; i < C.length; i++) d += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(C[i]).toFixed(1) + " ";
+    g += '<path d="' + d.trim() + '" fill="none" stroke="#2b4bd8" stroke-width="2.1" stroke-linejoin="round" stroke-linecap="round"/>';
+    var last = C[C.length - 1], up = C.length > 1 && last >= C[C.length - 2];
+    g += '<circle cx="' + X(C.length - 1).toFixed(1) + '" cy="' + Y(last).toFixed(1) +
+      '" r="3.6" fill="#fff" stroke="' + (up ? "#d92b2b" : "#128a4c") + '" stroke-width="2"/>';
+    var amax = Math.max.apply(null, A) || 1, bw = Math.max(2, (x1 - x0) / L.length * 0.58);
+    for (var j = 0; j < A.length; j++) {
+      var h = (vy1 - vy0) * (A[j] / amax);
+      var cu = j === 0 || C[j] >= C[j - 1];
+      g += '<rect x="' + (X(j) - bw / 2).toFixed(1) + '" y="' + (vy1 - h).toFixed(1) +
+        '" width="' + bw.toFixed(1) + '" height="' + Math.max(1, h).toFixed(1) +
+        '" fill="' + (cu ? "#e8a3a3" : "#9fd3b6") + '"/>';
+    }
+    [0, Math.floor((L.length - 1) / 2), L.length - 1].forEach(function (ix, q) {
+      var an = q === 0 ? "start" : (q === 2 ? "end" : "middle");
+      g += '<text x="' + X(ix).toFixed(1) + '" y="121" text-anchor="' + an +
+        '" font-size="9" fill="#9099a8">' + esc(L[ix]) + "</text>";
+    });
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="板块指数近30日走势与成交额">' + g + "</svg>";
+  }
+
+  /* ---------- TOP5 卡片 ---------- */
+  var SORTS = [
+    { k: "score", n: "综合排名" }, { k: "rev", n: "营收增速" },
+    { k: "gain", n: "季度涨幅" }, { k: "heat", n: "热度" },
+  ];
+  var cur = "score";
+  function numOf(v) { var n = parseFloat(String(v).replace(/[^\d.\-+]/g, "")); return isNaN(n) ? -999 : n; }
+  function sorted() {
+    var a = TOP.slice();
+    if (cur === "score") a.sort(function (x, y) { return y.score - x.score; });
+    else if (cur === "rev") a.sort(function (x, y) { return numOf(y.factors[0].value) - numOf(x.factors[0].value); });
+    else if (cur === "gain") a.sort(function (x, y) { return numOf(y.factors[1].value) - numOf(x.factors[1].value); });
+    else a.sort(function (x, y) { return numOf(y.factors[3].value) - numOf(x.factors[3].value); });
+    return a;
+  }
+  function renderFilters() {
+    $("filters").innerHTML = SORTS.map(function (f) {
+      return '<button class="f-chip' + (cur === f.k ? " on" : "") + '" data-k="' + f.k + '">' + esc(f.n) + "</button>";
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll(".f-chip"), function (b) {
+      b.addEventListener("click", function () { cur = b.getAttribute("data-k"); renderFilters(); renderTop(); });
+    });
+  }
+  function renderTop() {
+    $("top-list").innerHTML = sorted().map(function (x, i) {
+      var v = x.valuation || {}, t = v.tone || "neutral";
+      var pct = (v.percentile == null ? 50 : v.percentile);
+      var cells = (x.factors || []).map(function (f) {
+        return '<div class="rk-cell t-' + esc(f.tone) + '">' +
+          '<div class="fn">' + esc(f.name) + '</div><div class="fv">' + esc(f.value) + "</div>" +
+          '<div class="fnote">' + esc(f.note) + "</div></div>";
+      }).join("");
+      var svg = drawTrend(x.chart || {});
+      return '<article class="card rk">' +
+        '<div class="rk-top"><span class="rk-no">NO.' + (i + 1) + '</span>' +
+        '<span class="rk-name">' + esc(x.name) + '</span>' +
+        '<span class="rk-score">综合 ' + esc(x.score) + '</span></div>' +
+        '<div class="rk-line">' + esc(x.oneLiner) + "</div>" +
+        '<div class="rk-val"><span class="val-tag ' + t + '">' + esc(v.label || "—") + "</span>" +
+        '<span class="vt">' + esc(v.text || "") + "</span></div>" +
+        '<div class="val-bar ' + t + '"><i style="width:' + pct + '%"></i></div>' +
+        '<div class="val-cap">' + esc(v.basis || "") + " · 绿＝估值便宜，不等于会涨</div>" +
+        '<div class="rk-f">' + cells + "</div>" +
+        (svg ? '<div class="rk-chart">' + svg + '<div class="rk-legend">' +
+          '<span><i style="background:#2b4bd8"></i>板块指数</span>' +
+          '<span><i style="background:#9aa7ba"></i>成交额（红涨绿跌）</span></div></div>' : "") +
+        '<div class="rk-src">来源：东方财富（板块日K · 历史资金流 · 2026三季报 · 行业估值）；' +
+        '成分股营收按板块汇总，估值为申万行业代表板块口径。</div>' +
+        "</article>";
+    }).join("");
+  }
+  renderFilters(); renderTop();
+
+  /* ---------- 三段式 利好 / 爆雷 ---------- */
+  function renderSignals(list, boxId, good) {
+    var label2 = good ? "利好消息" : "爆雷消息";
+    $(boxId).innerHTML = list.map(function (n) {
+      return '<article class="card sgn ' + (good ? "sgn-good" : "sgn-bad") + '">' +
+        '<div class="sgn-top"><span class="sgn-no">' + String(n.no).padStart(2, "0") + "</span>" +
+        '<span class="sgn-theme">' + esc(n.theme) + "</span>" +
+        '<span class="sgn-time">' + esc(n.time) + "</span>" +
+        '<span class="sgn-imp">' + (good ? "利好" : "需留意") + "</span></div>" +
+        '<div class="seg s-name"><span class="seg-k"><i></i>行业板块名称</span><p>' + esc(n.sector) + "</p></div>" +
+        '<div class="seg s-msg"><span class="seg-k"><i></i>' + label2 + "</span><p>" + esc(n.news) + "</p></div>" +
+        '<div class="seg s-opp"><span class="seg-k"><i></i>机会分析</span><p>' + esc(n.opportunity) + "</p></div>" +
+        (n.risk ? '<div class="risk-note">' + esc(String(n.risk).replace(/^[^\u4e00-\u9fa5]+/, "")) + "</div>" : "") +
+        '<div class="sgn-src">原文：' + esc(n.rawTitle) + "<br>来源：" + esc(n.source) +
+        " · " + esc(n.time) + " · 板块关联为规则映射</div>" +
+        "</article>";
+    }).join("");
+  }
+  renderSignals(GOOD, "good-list", true);
+  renderSignals(BAD, "bad-list", false);
+
+  /* ---------- 数据来源与追溯 ---------- */
+  $("channels").innerHTML = (D.channels || []).map(function (c) {
+    return '<div class="ch ' + (c.status === "ok" ? "ok" : "partial") + '">' +
+      '<i class="st"></i><span class="nm">' + esc(c.short) + "</span>" +
+      '<span class="sm">' + (c.status === "ok" ? "可达" : "受限") + "</span></div>";
+  }).join("");
+  $("trace").innerHTML = (D.trace || []).map(function (t) {
+    return '<div class="tr"><span class="tp">' + esc(t.provider) + "</span>" +
+      '<span class="tn">' + esc(t.endpoint) + " · " + esc(t.note || "") + "</span></div>";
+  }).join("");
+})();
+</script>
+</body>
+</html>

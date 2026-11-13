@@ -1,0 +1,124 @@
+理财工作台 · 免费服务器部署包
+生成时间：2026-11-13 16:07
+方案：GitHub Actions（免费定时算力） + GitHub Pages / Cloudflare Pages（免费静态托管）
+
+════════════════════════════════════════════
+为什么是这个方案
+════════════════════════════════════════════
+公开仓库的 GitHub Actions 免费且不限时长，Pages 免费且带宽不限；
+cron 定时真实执行 Python 采集脚本，代码/数据/产物都在 Git 仓库里，
+不依赖任何单一沙箱，彻底绕开「定时任务看不到文件」的问题。
+数据源已在本沙箱（境外出口）逐个实测：新浪财经、同花顺、证券时报、
+天天基金、东财 datacenter-web、腾讯行情 全部 HTTP 200。
+
+════════════════════════════════════════════
+一、最快路径：把本包交给 AI 代办（推荐）
+════════════════════════════════════════════
+⚠ 只给「Contents: 读写」是不够的！创建仓库属于账户级操作，
+实测 403 响应头会明确要求：
+  x-accepted-github-permissions: administration=write; repository_creation=write
+
+方式 A：Fine-grained token（推荐，可编辑现有令牌加权限）
+  GitHub → Settings → Developer settings → Personal access tokens
+  → Fine-grained tokens
+  · Repository access（存储库访问权限）：All repositories
+    （仓库尚未创建，不能选「Only select repositories」）
+  · Account permissions（账户权限）：
+      Repository creation（仓库创建） → Read and write
+  · Repository permissions（仓库权限）：
+      Administration → Read and write   （开启 Pages / Actions 设置）
+      Contents       → Read and write   （推送代码与每日产物）
+      Workflows      → Read and write   （推送 .github/workflows/daily.yml）
+      Pages          → Read and write   （启用 Pages）
+      Actions        → Read and write   （手动触发、查看运行）
+      Metadata       → Read-only        （默认项，保留）
+
+方式 B：Classic token（最省事）
+  Personal access tokens → Tokens (classic) → Generate new token
+  勾选 repo（完整仓库控制）与 workflow，其余可不勾。
+
+方式 C：不想动令牌权限
+  在 GitHub 网页手动 New repository 建一个空的 Public 仓库
+  finance-workbench（不要勾 README / .gitignore / License），
+  把仓库地址给 AI；此时令牌只需 Contents / Workflows / Pages /
+  Administration 写权限即可（仍需 All repositories）。
+
+AI 拿到可用令牌后会代为：创建或复用仓库 → 推送全部文件 →
+启用 Pages → 触发首次构建 → 验证并回传可访问链接。
+令牌仅在部署时用于 API 与 git 认证，绝不会写入仓库文件。
+用完请在同一页面 Revoke 撤销（令牌出现在聊天记录中，务必轮换）。
+
+════════════════════════════════════════════
+二、自己操作（电脑终端，3 步）
+════════════════════════════════════════════
+1. GitHub 网页右上角 + → New repository
+   名称填 finance-workbench，选 Public（公开仓库 Actions 才免费不限时），
+   不要勾选任何初始化文件（README / .gitignore / License 都别勾）。
+
+2. 在本目录执行（把 <你的用户名> 换成实际值）：
+   cd finance-workbench-deploy
+   git init && git add . && git commit -m "init: 理财工作台"
+   git branch -M main
+   git remote add origin https://github.com/<你的用户名>/finance-workbench.git
+   git push -u origin main
+
+3. 仓库 Settings → Pages → Build and deployment
+   Source 选 Deploy from a branch，Branch 选 main / docs，保存。
+   约 1 分钟后访问：
+   https://<你的用户名>.github.io/finance-workbench/
+   docs/ 已预置今日完整产物，启用后立即可见，无需等第一次定时。
+
+没有终端也可以在 GitHub 仓库页点 Add file → Upload files，
+把本包 zip 解压后的文件拖进去（注意 .github 是隐藏目录，需一并上传）。
+
+════════════════════════════════════════════
+三、自动更新怎么工作
+════════════════════════════════════════════
+.github/workflows/daily.yml 每工作日 UTC 06:00（北京 14:00）自动运行：
+  pip install → daily_update.py --deploy
+  → 四模块真实采集 → 质量校验（失败/降级沿用上一版）
+  → 构建工作台 → 产物校验 → 写入 docs/ → git commit/push
+  → Pages 自动部署，链接不变，内容刷新。
+
+也可在仓库 Actions 页面点 Run workflow 手动立即更新一次。
+
+想改时间：编辑 daily.yml 里的 cron（UTC）。
+  北京 14:00 工作日 = '0 6 * * 1-5'
+  每天（含周末）   = '0 6 * * *'
+  盘中每小时       = '0 0-5 * * 1-5'   （UTC 00-05 = 北京 08-13 点）
+
+════════════════════════════════════════════
+四、国内访问提速（可选，仍然免费）
+════════════════════════════════════════════
+GitHub Pages 在国内偶尔较慢。可改用 Cloudflare Pages 托管同一仓库：
+  Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
+  选这个仓库，Build command 留空，Build output directory 填 docs，
+  Root directory 留空，保存即自动部署。
+  得到 https://finance-workbench.pages.dev/ ，国内可直连、更快。
+  GitHub Actions 仍负责定时构建，两者不冲突。
+
+════════════════════════════════════════════
+五、必须知道的边界
+════════════════════════════════════════════
+1. Actions 定时任务在整点高峰期可能延迟数分钟甚至偶尔跳过，这是平台
+   共享调度器的固有限制，不是脚本故障；脚本本身带 3 层质量保护。
+2. 公开仓库若连续 60 天无任何活动，GitHub 会自动停用 schedule；
+   每天提交一次产物本身就会保持仓库活跃，正常不会触发。
+3. Actions 是境外出口，行情源已实测可用；若某天某站点临时风控，
+   该模块自动沿用上一版并如实标注，不会用虚构数据填充。
+4. 原 WorkBuddy 线上链接（app.workbuddy.host）与本部署相互独立：
+   那条链接依赖本沙箱，不会自动更新；如需继续用，请另行处理。
+5. 手机本地保存的离线文件是快照，不随服务器自动变化；要看最新请访问
+   上面的 Pages 链接。
+
+════════════════════════════════════════════
+六、本地复现 CI 全流程（验证用）
+════════════════════════════════════════════
+pip install -r requirements.txt
+python3 finance-workbench/scripts/daily_update.py --deploy
+# 状态行：DEPLOY_OK（产物已写 dist/ 与 docs/）
+#         NO_CHANGE_OK（无有效新数据，docs/ 保持不变）
+#         FAILED（构建或校验失败，docs/ 保持不变）
+
+⚠️ 内容由 AI 基于公开行情与官方信息整理，仅供参考，不构成投资建议；
+基金收益以基金公司公布净值为准。投资有风险，决策需谨慎。

@@ -1,0 +1,14 @@
+{
+  "modelVersion": "5.0.0",
+  "name": "finance-workbench",
+  "version": "1.0.0",
+  "description": "理财工作台 · 鸿蒙原生 ArkWeb 壳",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {},
+  "devDependencies": {
+    "@ohos/hvigor": "5.0.0",
+    "@ohos/hvigor-ohos-plugin": "5.0.0"
+  }
+}

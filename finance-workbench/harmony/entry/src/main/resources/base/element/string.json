@@ -1,0 +1,20 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "理财工作台：财经新闻 / 行业板块 / 指数跟踪 / 债券基金"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "理财工作台主界面"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "理财工作台"
+    },
+    {
+      "name": "internet_reason",
+      "value": "预留给将来的 14:00 在线数据更新；当前版本全部数据已随应用打包，离线即可使用"
+    }
+  ]
+}

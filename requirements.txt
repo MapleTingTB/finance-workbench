@@ -1,0 +1,3 @@
+# 仅采集/构建链路所需（verify_workbench.py 的 playwright、make_icons.py 的 Pillow 不在 CI 使用）
+requests>=2.31,<3
+beautifulsoup4>=4.12,<5

@@ -1,0 +1,36 @@
+{
+ "date": "2026-11-12",
+ "runAt": "2026-11-12 17:34:58",
+ "navDate": "2026-11-11",
+ "threshold": 0.7,
+ "enabled": true,
+ "systemNotify": false,
+ "channelName": "手机弹窗消息",
+ "evaluated": [
+  {
+   "code": "005909",
+   "name": "华泰保兴尊利债券C",
+   "hasBuy": true,
+   "buyDate": "2026-09-10",
+   "buyNav": 1.3172,
+   "buyNavSrc": "录入成交净值",
+   "buyAmount": 20000,
+   "buyCount": 1,
+   "curDate": "2026-11-11",
+   "curNav": 1.3134,
+   "chgPct": -0.2885,
+   "threshold": 0.7,
+   "triggered": false,
+   "status": "未触发 · 正常监控"
+  }
+ ],
+ "triggered": [],
+ "popupStatus": "skipped_no_trigger",
+ "popupDetail": "本次无基金跌幅超过 0.7%，按规则不弹窗（未触发）",
+ "message": {
+  "title": "债券基金 · 买入跌幅监控（未触发）",
+  "content": "本次 14:00 更新：无自选基金相对上次买入跌幅超过 0.7%，按规则不弹窗。\n\n触发规则：相对上次买入时间点跌幅 > 0.7% 时，页面自动弹出消息卡片。\n数据基准：2026-11-11｜单位净值口径，逐条可回验。\n本记录由自动化脚本生成，仅供参考，不构成投资建议。",
+  "items": []
+ },
+ "note": "脚本只负责判定与生成弹窗消息并写日志；真正弹出由手机页面在打开时读取触发态完成，不调用任何外部推送网关，不谎报已弹出 / 已送达。"
+}

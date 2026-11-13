@@ -1,0 +1,270 @@
+{
+  "date": "2026-11-13",
+  "fetchedAt": "2026-11-13 22:52:24",
+  "timezone": "Asia/Shanghai",
+  "channels": [
+    {
+      "name": "中国人民银行",
+      "short": "央行",
+      "url": "http://www.pbc.gov.cn/",
+      "status": "ok",
+      "http": 200,
+      "sampleTitles": [
+        "2026年10月金融统计数据报告",
+        "金融科技发展奖评审领导小组会议召开",
+        "2026年第三季度中国货币政策执行报告"
+      ],
+      "note": "HTTP 200，页面 129029 字符，抓取 3 条官方标题"
+    },
+    {
+      "name": "国家统计局",
+      "short": "统计局",
+      "url": "https://www.stats.gov.cn/",
+      "status": "ok",
+      "http": 200,
+      "sampleTitles": [
+        "国家粮食和物资储备局",
+        "联合国经济和社会事务部",
+        "中国国民经济核算研究会"
+      ],
+      "note": "HTTP 200，页面 127444 字符，抓取 3 条官方标题"
+    },
+    {
+      "name": "中国政府网",
+      "short": "国务院",
+      "url": "https://www.gov.cn/",
+      "status": "ok",
+      "http": 200,
+      "sampleTitles": [
+        "惠企助企政策集纳查询",
+        "解读：从“十五五”专项规划看以金融服务发展大局",
+        "你关心的公租房问题，住房城乡建设部有权威回应"
+      ],
+      "note": "HTTP 200，页面 62856 字符，抓取 3 条官方标题"
+    },
+    {
+      "name": "国家外汇管理局",
+      "short": "外汇局",
+      "url": "https://www.safe.gov.cn/",
+      "status": "ok",
+      "http": 200,
+      "sampleTitles": [
+        "国家外汇管理局公布2026年三季度及前三季度我国国际收...",
+        "国家外汇管理局党组传达学习党的二十届五中全会精神",
+        "朱鹤新局长会见彼得森国际经济研究所代表团"
+      ],
+      "note": "HTTP 200，页面 86186 字符，抓取 3 条官方标题"
+    },
+    {
+      "name": "中国证监会",
+      "short": "证监会",
+      "url": "http://www.csrc.gov.cn/",
+      "status": "ok",
+      "http": 200,
+      "sampleTitles": [
+        "国家统计局2026年常规统计督察第9统计督察组向中国证监会反馈统计督察意见",
+        "中国证监会与阿曼金融服务管理局签署《证券期货监管合作谅解备忘录》",
+        "中国证监会发布《关于资本市场支持构建房地产发展新模式的意见》"
+      ],
+      "note": "HTTP 200，页面 207957 字符，抓取 3 条官方标题"
+    },
+    {
+      "name": "财政部",
+      "short": "财政部",
+      "url": "http://www.mof.gov.cn/",
+      "status": "partial",
+      "http": 200,
+      "sampleTitles": [],
+      "note": "HTTP 200，站点返回内容较短，仅记录可达性"
+    }
+  ],
+  "items": [
+    {
+      "order": 2,
+      "org": "全国银行间同业拆借中心",
+      "orgShort": "LPR",
+      "category": "lpr",
+      "impact": "neutral",
+      "relates": [
+        "买房月供",
+        "债券基金"
+      ],
+      "metrics": {
+        "lpr5": "3.50%",
+        "lpr1": "3.00%",
+        "note": "房贷定价基准，本期无变化"
+      },
+      "time": "本期公布值",
+      "title": "5 年期以上 LPR 维持 3.50%，房贷定价基准本期无变化",
+      "raw": "贷款市场报价利率（LPR）由全国银行间同业拆借中心受权公布，5 年期以上品种是房贷定价基准。",
+      "verified": true,
+      "source": "万得 Wind · 全国银行间同业拆借中心 LPR 公布值"
+    },
+    {
+      "order": 8,
+      "org": "中国金融期货交易所",
+      "orgShort": "中金所",
+      "category": "bond",
+      "impact": "caution",
+      "relates": [
+        "债券基金",
+        "久期风险"
+      ],
+      "metrics": {
+        "c30": "-0.14",
+        "c10": "-0.06",
+        "c5": "-0.04"
+      },
+      "verify": [
+        "30年期",
+        "跌0.14%"
+      ],
+      "source": "东方财富 7×24 转载 · 中金所国债期货收盘行情",
+      "time": "11-13 15:17",
+      "title": "国债期货收盘全线下跌 30年期主力合约跌0.47%",
+      "raw": "【国债期货收盘全线下跌 30年期主力合约跌0.47%】国债期货收盘全线下跌，30年期主力合约跌0.47%报117.450元，10年期主力合约跌0.05%报110.045元，5年期主力合约跌0.03%报106.760元，2年期主力合约跌0.02%报102.636元。",
+      "verified": false
+    },
+    {
+      "order": 10,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "neutral",
+      "relates": [
+        "财经要闻"
+      ],
+      "metrics": {
+        "title": "北京国资公司与北京农商银行在京举办“资本赋能实体高质量发展”研讨会",
+        "tag": "个股与快讯"
+      },
+      "time": "今日要闻",
+      "title": "北京国资公司与北京农商银行在京举办“资本赋能实体高质量发展”研讨会",
+      "raw": "北京国资公司与北京农商银行在京举办“资本赋能实体高质量发展”研讨会。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4336526.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4336526.html"
+    },
+    {
+      "order": 11,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "neutral",
+      "relates": [
+        "财经要闻"
+      ],
+      "metrics": {
+        "title": "金融监管总局法规司司长：地方中小金融机构减量提质已取得明显进展",
+        "tag": "个股与快讯"
+      },
+      "time": "今日要闻",
+      "title": "金融监管总局法规司司长：地方中小金融机构减量提质已取得明显进展",
+      "raw": "金融监管总局法规司司长：地方中小金融机构减量提质已取得明显进展。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4336447.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4336447.html"
+    },
+    {
+      "order": 12,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "neutral",
+      "relates": [
+        "财经要闻"
+      ],
+      "metrics": {
+        "title": "刘世锦：中国有潜力、有条件形成具有全球影响力和竞争力的消费市场竞争优势",
+        "tag": "个股与快讯"
+      },
+      "time": "今日要闻",
+      "title": "刘世锦：中国有潜力、有条件形成具有全球影响力和竞争力的消费市场竞争优势",
+      "raw": "刘世锦：中国有潜力、有条件形成具有全球影响力和竞争力的消费市场竞争优势。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4336396.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4336396.html"
+    },
+    {
+      "order": 13,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "positive",
+      "relates": [
+        "财经要闻"
+      ],
+      "metrics": {
+        "title": "盘后，利好来了！两部门，重磅发布！",
+        "tag": "个股与快讯"
+      },
+      "time": "今日要闻",
+      "title": "盘后，利好来了！两部门，重磅发布！",
+      "raw": "盘后，利好来了！两部门，重磅发布！。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4336193.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4336193.html"
+    },
+    {
+      "order": 14,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "neutral",
+      "relates": [
+        "利率与货币"
+      ],
+      "metrics": {
+        "title": "央行重要发布！",
+        "tag": "利率与货币"
+      },
+      "time": "今日要闻",
+      "title": "央行重要发布！",
+      "raw": "央行重要发布！。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4336184.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4336184.html"
+    },
+    {
+      "order": 15,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "neutral",
+      "relates": [
+        "宏观数据"
+      ],
+      "metrics": {
+        "title": "财政部详解离岸信托个税政策",
+        "tag": "宏观数据"
+      },
+      "time": "今日要闻",
+      "title": "财政部详解离岸信托个税政策",
+      "raw": "财政部详解离岸信托个税政策。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4336277.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4336277.html"
+    },
+    {
+      "order": 16,
+      "org": "证券时报",
+      "orgShort": "证券时报",
+      "category": "brief",
+      "impact": "positive",
+      "relates": [
+        "财经要闻"
+      ],
+      "metrics": {
+        "title": "武汉1宗宅地溢价62.3%成交创近年来溢价率新高",
+        "tag": "个股与快讯"
+      },
+      "time": "今日要闻",
+      "title": "武汉1宗宅地溢价62.3%成交创近年来溢价率新高",
+      "raw": "武汉1宗宅地溢价62.3%成交创近年来溢价率新高。本条为证券时报网要闻页直采的真实标题，原文链接：https://www.stcn.com/article/detail/4335427.html；本页不转载正文、不推算数值，解读为定性提示。",
+      "verified": true,
+      "source": "证券时报网 · 人民财讯（官网要闻页直采）",
+      "url": "https://www.stcn.com/article/detail/4335427.html"
+    }
+  ],
+  "note": "官方发布标题与数值来自东方财富 7×24 转载并经原文回验；发布覆盖不足时，以证券时报网（人民财讯）要闻页直采的当日真实标题补位（仅定性解读、不编造数值）；LPR 来自万得 Wind 宏观口径；行情数据来自新浪财经 / 同花顺 / 东方财富。"
+}

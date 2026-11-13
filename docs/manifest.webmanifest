@@ -1,0 +1,27 @@
+{
+  "id": "./",
+  "name": "理财工作台",
+  "short_name": "理财工作台",
+  "description": "财经新闻 · 行业板块 · 指数跟踪 · 债券基金，一个 App 看全（每天 14:00 更新 · 支持离线）",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#f4f6f9",
+  "theme_color": "#0a59f7",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "财经新闻", "short_name": "要闻", "description": "今日财经要点与盘中研判", "url": "./index.html?m=finance-news", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "行业板块", "short_name": "板块", "description": "行业综合排名与机会分析", "url": "./index.html?m=industry-sectors", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "指数跟踪", "short_name": "自选", "description": "自选指数基金收益与技术依据", "url": "./index.html?m=index-tracking", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "债券基金", "short_name": "债基", "description": "排名、晴雨表与买入跌幅弹窗提醒", "url": "./index.html?m=bond-funds", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

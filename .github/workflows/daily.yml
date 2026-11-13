@@ -1,0 +1,57 @@
+name: 理财工作台 · 工作日 14:00 自动更新
+
+# 时区说明：GitHub Actions 的 cron 一律按 UTC 解析。
+# UTC 06:00 = 北京 14:00；1-5 = 周一至周五（无跨日问题）。
+on:
+  schedule:
+    - cron: '0 6 * * 1-5'
+  workflow_dispatch:            # 可在 Actions 页面手动「立即更新」
+  push:
+    branches: [main]
+    paths:                       # 仅在代码变更时触发；提交 docs/ 不会自我循环
+      - 'finance-workbench/scripts/**'
+      - '*/sources/**'
+      - '.github/workflows/daily.yml'
+      - 'requirements.txt'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: finance-workbench-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
+
+      - name: 采集 → 质量校验 → 构建 → 同步 docs/
+        # 内置保护：某模块采集失败或数据降级时自动沿用上一版，绝不发布坏数据
+        run: python3 finance-workbench/scripts/daily_update.py --deploy
+
+      - name: 提交产物（供 Pages 托管）
+        run: |
+          git config user.name  "workbench-bot"
+          git config user.email "workbench-bot@users.noreply.github.com"
+          git add docs/ \
+            finance-news/index.html industry-sectors/index.html \
+            index-tracking/index.html bond-funds/index.html
+          if git diff --cached --quiet; then
+            echo "本次无产物变化，跳过提交"
+          else
+            git commit -m "chore: 每日数据更新 $(date -u +'%Y-%m-%d')"
+            git push
+          fi

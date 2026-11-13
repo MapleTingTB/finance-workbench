@@ -1,0 +1,217 @@
+{
+ "meta": {
+  "date": "2026-11-13",
+  "generatedAt": "2026-11-13 22:54:38",
+  "watchlist": [
+   "012769",
+   "004343",
+   "007029",
+   "012734",
+   "003359",
+   "011036",
+   "020900"
+  ],
+  "lastTradeDate": "2026-11-13"
+ },
+ "raw": {
+  "012734": {
+   "code": "012734",
+   "base": {
+    "name": "易方达中证人工智能主题ETF联接C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "2.930713",
+    "code": "930713",
+    "name": "中证人工智能主题",
+    "short": "CS人工智"
+   },
+   "quote": null
+  },
+  "012769": {
+   "code": "012769",
+   "base": {
+    "name": "华夏中证动漫游戏ETF发起式联接C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "2.930901",
+    "code": "930901",
+    "name": "中证动漫游戏",
+    "short": "动漫游戏"
+   },
+   "quote": null
+  },
+  "007029": {
+   "code": "007029",
+   "base": {
+    "name": "易方达中证500ETF联接发起式C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "1.000905",
+    "code": "000905",
+    "name": "中证500",
+    "short": "中证500"
+   },
+   "quote": {
+    "name": "中证500",
+    "point": 6465.48,
+    "high": 6645.62,
+    "low": 6449.34,
+    "open": 6624.75,
+    "prevClose": 6604.15,
+    "volume": 133623435.0,
+    "amount": 280147808494.0,
+    "chgAmt": -138.67,
+    "chgPct": -2.1,
+    "ts": 1794581677
+   }
+  },
+  "004343": {
+   "code": "004343",
+   "base": {
+    "name": "南方创业板ETF联接C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "0.399006",
+    "code": "399006",
+    "name": "创业板指",
+    "short": "创业板指"
+   },
+   "quote": {
+    "name": "创业板指",
+    "point": 2426.08,
+    "high": 2528.99,
+    "low": 2417.22,
+    "open": 2525.39,
+    "prevClose": 2509.43,
+    "volume": 17043746681.0,
+    "amount": 435333895295.53,
+    "chgAmt": -83.35,
+    "chgPct": -3.32,
+    "ts": 1794581677
+   }
+  },
+  "003359": {
+   "code": "003359",
+   "base": {
+    "name": "大成360互联网+大数据100C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "2.930734",
+    "code": "930734",
+    "name": "中证360互联网+大数据100",
+    "short": "360互联+"
+   },
+   "quote": null
+  },
+  "020900": {
+   "code": "020900",
+   "base": {
+    "name": "天弘中证全指通信设备指数发起C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "2.931160",
+    "code": "931160",
+    "name": "中证全指通信设备",
+    "short": "通信设备"
+   },
+   "quote": null
+  },
+  "011036": {
+   "code": "011036",
+   "base": {
+    "name": "嘉实中证稀土产业ETF联接C",
+    "category": "指数型-股票"
+   },
+   "name_pz": "",
+   "index": {
+    "secid": "2.930598",
+    "code": "930598",
+    "name": "中证稀土产业",
+    "short": "稀土产业"
+   },
+   "quote": null
+  }
+ },
+ "marketCards": [
+  {
+   "code": "000001",
+   "name": "上证指数",
+   "point": 3634.35,
+   "chgPct": -0.59,
+   "chgAmt": -21.48
+  },
+  {
+   "code": "399001",
+   "name": "深证成指",
+   "point": 10968.79,
+   "chgPct": -2.05,
+   "chgAmt": -229.19
+  },
+  {
+   "code": "399006",
+   "name": "创业板指",
+   "point": 2426.08,
+   "chgPct": -3.32,
+   "chgAmt": -83.35
+  }
+ ],
+ "trace": [
+  {
+   "provider": "新浪财经 / 腾讯行情",
+   "endpoint": "大盘指数实时行情",
+   "url": "https://hq.sinajs.cn / qt.gtimg.cn",
+   "status": "ok",
+   "note": "上证/深证/创业板 3 张卡",
+   "count": 3,
+   "fetchedAt": "2026-11-13 22:54:38"
+  },
+  {
+   "provider": "天天基金",
+   "endpoint": "基金名称/类型",
+   "url": "https://fundsuggest.eastmoney.com/FundSearch/api/FundSearchAPI.ashx",
+   "status": "ok",
+   "note": "FundSearchAPI 逐只校验",
+   "count": 7,
+   "fetchedAt": "2026-11-13 22:54:38"
+  },
+  {
+   "provider": "天天基金",
+   "endpoint": "历史单位净值",
+   "url": "https://api.fund.eastmoney.com/f10/lsjz",
+   "status": "ok",
+   "note": "每只最多 260 条日净值，用于持有收益与首次买入涨跌幅",
+   "count": 7,
+   "fetchedAt": "2026-11-13 22:54:38"
+  },
+  {
+   "provider": "新浪财经 / 同花顺",
+   "endpoint": "标的指数实时行情",
+   "url": "https://hq.sinajs.cn",
+   "status": "ok",
+   "note": "实时点位 / 涨跌幅 / 成交量 / 成交额",
+   "count": 2,
+   "fetchedAt": "2026-11-13 22:54:38"
+  },
+  {
+   "provider": "新浪财经 / 天天基金",
+   "endpoint": "标的指数日K 250根",
+   "url": "https://quotes.sina.cn / fund.eastmoney.com",
+   "status": "ok",
+   "note": "BOLL / MACD / 均线 / 250日分位均由此计算",
+   "count": 7,
+   "fetchedAt": "2026-11-13 22:54:38"
+  }
+ ]
+}
