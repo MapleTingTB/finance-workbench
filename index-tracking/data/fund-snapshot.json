@@ -1,7 +1,7 @@
 {
  "meta": {
-  "date": "2026-11-13",
-  "generatedAt": "2026-11-13 22:54:38",
+  "date": "2026-11-16",
+  "generatedAt": "2026-11-16 14:50:55",
   "watchlist": [
    "012769",
    "004343",
@@ -1335,8 +1335,21 @@
     "2026-11-12": 1.0952,
     "2026-11-13": 1.0863
    },
-   "realtime": null,
-   "estChg": null,
+   "realtime": {
+    "point": 1493.92,
+    "chgPct": -0.94,
+    "chgAmt": -14.15,
+    "high": 1522.37,
+    "low": 1489.75,
+    "open": 1503.14,
+    "prevClose": 1508.07,
+    "volume": 11434791.39,
+    "volumeText": "1143.48 万手",
+    "amount": 12907000000.0,
+    "amountText": "129.07 亿",
+    "quoteName": "动漫游戏"
+   },
+   "estChg": -0.94,
    "valuation": {
     "percentile": 9.774229074889861,
     "label": "偏低",
@@ -3111,20 +3124,20 @@
     "2026-11-13": 1.2573
    },
    "realtime": {
-    "point": 2426.08,
-    "chgPct": -3.32,
-    "chgAmt": -83.35,
-    "high": 2528.99,
-    "low": 2417.22,
-    "open": 2525.39,
-    "prevClose": 2509.43,
-    "volume": 17043746681.0,
-    "volumeText": "170.44 亿手",
-    "amount": 435333895295.53,
-    "amountText": "4353.34 亿",
+    "point": 2317.14,
+    "chgPct": -4.49,
+    "chgAmt": -108.94,
+    "high": 2398.19,
+    "low": 2308.9,
+    "open": 2395.52,
+    "prevClose": 2426.08,
+    "volume": 14581958829.0,
+    "volumeText": "145.82 亿手",
+    "amount": 352681187611.22,
+    "amountText": "3526.81 亿",
     "quoteName": "创业板指"
    },
-   "estChg": -3.32,
+   "estChg": -4.49,
    "valuation": {
     "percentile": 1.7385903430723937,
     "label": "偏低",
@@ -4899,20 +4912,20 @@
     "2026-11-13": 1.5777
    },
    "realtime": {
-    "point": 6465.48,
-    "chgPct": -2.1,
-    "chgAmt": -138.67,
-    "high": 6645.62,
-    "low": 6449.34,
-    "open": 6624.75,
-    "prevClose": 6604.15,
-    "volume": 133623435.0,
-    "volumeText": "1.34 亿手",
-    "amount": 280147808494.0,
-    "amountText": "2801.48 亿",
+    "point": 6284.87,
+    "chgPct": -2.79,
+    "chgAmt": -180.61,
+    "high": 6424.17,
+    "low": 6268.46,
+    "open": 6424.17,
+    "prevClose": 6465.48,
+    "volume": 123134222.0,
+    "volumeText": "1.23 亿手",
+    "amount": 247687700492.0,
+    "amountText": "2476.88 亿",
     "quoteName": "中证500"
    },
-   "estChg": -2.1,
+   "estChg": -2.79,
    "valuation": {
     "percentile": 7.207383791071279,
     "label": "偏低",
@@ -6686,8 +6699,21 @@
     "2026-11-12": 1.6582,
     "2026-11-13": 1.6279
    },
-   "realtime": null,
-   "estChg": null,
+   "realtime": {
+    "point": 4801.51,
+    "chgPct": -1.94,
+    "chgAmt": -95.0,
+    "high": 4988.91,
+    "low": 4773.17,
+    "open": 4966.72,
+    "prevClose": 4896.51,
+    "volume": 14802072.1,
+    "volumeText": "1480.21 万手",
+    "amount": 131132000000.0,
+    "amountText": "1311.32 亿",
+    "quoteName": "CS人工智"
+   },
+   "estChg": -1.94,
    "valuation": {
     "percentile": 10.803463552154648,
     "label": "偏低",
@@ -8461,8 +8487,21 @@
     "2026-11-12": 3.0893,
     "2026-11-13": 3.0326
    },
-   "realtime": null,
-   "estChg": null,
+   "realtime": {
+    "point": 26149.44,
+    "chgPct": -1.96,
+    "chgAmt": -523.55,
+    "high": 26930.18,
+    "low": 26044.39,
+    "open": 26776.73,
+    "prevClose": 26672.99,
+    "volume": 8310728.6,
+    "volumeText": "831.07 万手",
+    "amount": 9562000000.0,
+    "amountText": "95.62 亿",
+    "quoteName": "360互联+"
+   },
+   "estChg": -1.96,
    "valuation": {
     "percentile": 35.665209244222346,
     "label": "合理",
@@ -10236,8 +10275,21 @@
     "2026-11-12": 1.014,
     "2026-11-13": 0.9916
    },
-   "realtime": null,
-   "estChg": null,
+   "realtime": {
+    "point": 2164.5,
+    "chgPct": -2.35,
+    "chgAmt": -52.1,
+    "high": 2222.47,
+    "low": 2156.54,
+    "open": 2214.66,
+    "prevClose": 2216.6,
+    "volume": 13107688.88,
+    "volumeText": "1310.77 万手",
+    "amount": 17614000000.0,
+    "amountText": "176.14 亿",
+    "quoteName": "稀土产业"
+   },
+   "estChg": -2.35,
    "valuation": {
     "percentile": 3.631472763954281,
     "label": "偏低",
@@ -12011,8 +12063,21 @@
     "2026-11-12": 2.3533,
     "2026-11-13": 2.2231
    },
-   "realtime": null,
-   "estChg": null,
+   "realtime": {
+    "point": 12568.98,
+    "chgPct": -5.78,
+    "chgAmt": -771.0,
+    "high": 13526.18,
+    "low": 12499.99,
+    "open": 13481.16,
+    "prevClose": 13339.98,
+    "volume": 17176784.68,
+    "volumeText": "1717.68 万手",
+    "amount": 120376000000.0,
+    "amountText": "1203.76 亿",
+    "quoteName": "通信设备"
+   },
+   "estChg": -5.78,
    "valuation": {
     "percentile": 5.977975878342954,
     "label": "偏低",
@@ -12471,23 +12536,23 @@
   {
    "code": "000001",
    "name": "上证指数",
-   "point": 3634.35,
-   "chgPct": -0.59,
-   "chgAmt": -21.48
+   "point": 3597.44,
+   "chgPct": -1.02,
+   "chgAmt": -36.91
   },
   {
    "code": "399001",
    "name": "深证成指",
-   "point": 10968.79,
-   "chgPct": -2.05,
-   "chgAmt": -229.19
+   "point": 10680.44,
+   "chgPct": -2.63,
+   "chgAmt": -288.34
   },
   {
    "code": "399006",
    "name": "创业板指",
-   "point": 2426.08,
-   "chgPct": -3.32,
-   "chgAmt": -83.35
+   "point": 2317.93,
+   "chgPct": -4.46,
+   "chgAmt": -108.15
   }
  ],
  "trace": [
@@ -12498,7 +12563,7 @@
    "status": "ok",
    "note": "上证/深证/创业板 3 张卡",
    "count": 3,
-   "fetchedAt": "2026-11-13 22:54:38"
+   "fetchedAt": "2026-11-16 14:50:55"
   },
   {
    "provider": "天天基金",
@@ -12507,7 +12572,7 @@
    "status": "ok",
    "note": "FundSearchAPI 逐只校验",
    "count": 7,
-   "fetchedAt": "2026-11-13 22:54:38"
+   "fetchedAt": "2026-11-16 14:50:55"
   },
   {
    "provider": "天天基金",
@@ -12516,7 +12581,7 @@
    "status": "ok",
    "note": "每只最多 260 条日净值，用于持有收益与首次买入涨跌幅",
    "count": 7,
-   "fetchedAt": "2026-11-13 22:54:38"
+   "fetchedAt": "2026-11-16 14:50:55"
   },
   {
    "provider": "新浪财经 / 同花顺",
@@ -12524,8 +12589,8 @@
    "url": "https://hq.sinajs.cn",
    "status": "ok",
    "note": "实时点位 / 涨跌幅 / 成交量 / 成交额",
-   "count": 2,
-   "fetchedAt": "2026-11-13 22:54:38"
+   "count": 7,
+   "fetchedAt": "2026-11-16 14:50:55"
   },
   {
    "provider": "新浪财经 / 天天基金",
@@ -12534,7 +12599,7 @@
    "status": "ok",
    "note": "BOLL / MACD / 均线 / 250日分位均由此计算",
    "count": 7,
-   "fetchedAt": "2026-11-13 22:54:38"
+   "fetchedAt": "2026-11-16 14:50:55"
   }
  ],
  "commonIndex": {

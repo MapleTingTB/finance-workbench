@@ -243,8 +243,44 @@ def _tencent_realtime(symbols):
     return out
 
 
+def _csi_latest(code: str):
+    """中证指数官网日线兜底（市场代码 2.xxxx 新浪/腾讯均无行情）。
+
+    返回 {name, price, prev, open, high, low, volume, amount, date}；
+    官方接口只提供收盘口径，盘中如实沿用最新收盘值。
+    """
+    import datetime as _dt
+    today = _dt.date.today()
+    start = today - _dt.timedelta(days=30)
+    url = ("https://www.csindex.com.cn/csindex-home/perf/index-perf"
+           "?indexCode=" + code +
+           "&startDate=" + start.strftime("%Y%m%d") +
+           "&endDate=" + today.strftime("%Y%m%d"))
+    rows = (json.loads(_http(url, ref="https://www.csindex.com.cn/"))
+            .get("data") or [])
+    if not rows:
+        return None
+    last = rows[-1]
+    close = _num(last.get("close"))
+    if close is None:
+        return None
+    chg = _num(last.get("change"))
+    d = str(last.get("tradeDate") or "")
+    date = "-".join([d[:4], d[4:6], d[6:8]]) if len(d) == 8 else d
+    return {
+        "name": last.get("indexNameCn") or "",
+        "price": close,
+        "prev": (close - chg) if chg is not None else None,
+        "open": _num(last.get("open")), "high": _num(last.get("high")),
+        "low": _num(last.get("low")),
+        "volume": (_num(last.get("tradingVol"), 0) or 0) / 100.0,   # 股 -> 手
+        "amount": (_num(last.get("tradingValue"), 0) or 0) * 1e8,   # 亿 -> 元
+        "date": date,
+    }
+
+
 def _realtime(secids):
-    """混合源：A 股/债券走新浪，外围走腾讯。返回 {secid: quote}。"""
+    """混合源：A 股/债券走新浪，外围走腾讯，中证指数走官网收盘兜底。返回 {secid: quote}。"""
     sina_map, tx_map, res = {}, {}, {}
     for sid in secids:
         sym = _secid_to_sina(sid)
@@ -263,6 +299,13 @@ def _realtime(secids):
             q = tq.get(sym)
             if q and q.get("price"):
                 res[sid] = q
+    # 中证主题指数（2.93xxxx）：新浪/腾讯均不提供，用中证官网最新收盘兜底
+    missing = [s for s in secids if s not in res and s.startswith("2.")]
+    for sid in missing:
+        code = sid.split(".", 1)[-1]
+        q = _cached("csi:" + code, lambda c=code: _csi_latest(c), ttl=900)
+        if q and q.get("price"):
+            res[sid] = q
     return res
 
 
