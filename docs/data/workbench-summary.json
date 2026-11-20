@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-11-20 07:59:37",
+    "generatedAt": "2026-11-20 08:24:46",
     "moduleCount": 4,
     "updateTime": "14:00",
     "timezone": "Asia/Shanghai",
@@ -146,11 +146,11 @@
         },
         {
           "name": "农林牧渔",
-          "score": 56.2
+          "score": 57.1
         },
         {
           "name": "通信",
-          "score": 52.6
+          "score": 53.7
         }
       ],
       "tone": "neutral"
