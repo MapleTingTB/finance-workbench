@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-11-20 06:55:44",
+    "generatedAt": "2026-11-20 07:08:16",
     "moduleCount": 4,
     "updateTime": "14:00",
     "timezone": "Asia/Shanghai",
@@ -32,18 +32,18 @@
     "market": [
       {
         "name": "上证指数",
-        "point": 3526.66,
-        "chgPct": -1.42
+        "point": 3533.79,
+        "chgPct": -1.22
       },
       {
         "name": "深证成指",
-        "point": 10285.15,
-        "chgPct": -2.82
+        "point": 10256.39,
+        "chgPct": -3.09
       },
       {
         "name": "创业板指",
-        "point": 2222.16,
-        "chgPct": -3.1
+        "point": 2212.13,
+        "chgPct": -3.54
       }
     ],
     "barometer": {
@@ -165,39 +165,39 @@
       "weekday": "星期五",
       "badge": "7 只自选",
       "headline": "大盘 0/3 上涨 · 7 只自选",
-      "desc": "大盘：上证指数 -1.42% / 深证成指 -2.82% / 创业板指 -3.10%",
+      "desc": "大盘：上证指数 -1.22% / 深证成指 -3.09% / 创业板指 -3.54%",
       "stats": [
         {
           "k": "上证",
-          "v": "-1.42%",
+          "v": "-1.22%",
           "tone": "down"
         },
         {
           "k": "深证成指",
-          "v": "-2.82%",
+          "v": "-3.09%",
           "tone": "down"
         },
         {
           "k": "创业板指",
-          "v": "-3.10%",
+          "v": "-3.54%",
           "tone": "down"
         }
       ],
       "market": [
         {
           "name": "上证指数",
-          "point": 3526.66,
-          "chgPct": -1.42
+          "point": 3533.79,
+          "chgPct": -1.22
         },
         {
           "name": "深证成指",
-          "point": 10285.15,
-          "chgPct": -2.82
+          "point": 10256.39,
+          "chgPct": -3.09
         },
         {
           "name": "创业板指",
-          "point": 2222.16,
-          "chgPct": -3.1
+          "point": 2212.13,
+          "chgPct": -3.54
         }
       ],
       "tone": "neutral"
