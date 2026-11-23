@@ -692,6 +692,35 @@ def select_official_news(news, policy, c: Collector, stcn_items=None):
                  note=f"用证券时报官网当日真实要闻补位 {added} 条（标题直采，不编造数值）",
                  count=added)
 
+    # 最后防线：证券时报在云端偶发被限流导致补位为 0 时，用当日东财 7×24
+    # 快讯的真实标题补位。该源在 GitHub 环境稳定可达，避免卡片骤降到个位数
+    # 触发质量保护整版回滚（新闻板块因此停在昨天）。只做定性解读、不编造数值。
+    if news and len(items) < 9:
+        seen = {x["title"] for x in items}
+        added2 = 0
+        for n in news:
+            if len(items) >= 9:
+                break
+            t = (n.get("title") or "").strip()
+            if not t or t in seen or len(t) < 8:
+                continue
+            if any(k in t for k in ("广告", "推广", "直播", "回放")):
+                continue
+            seen.add(t)
+            tag = classify_news(t, "")
+            info = _brief_item(t, n.get("url", "") or "https://www.eastmoney.com/", 20 + added2)
+            info["org"] = "东方财富"
+            info["orgShort"] = "东财快讯"
+            info["time"] = (n.get("time") or "今日")[:8]
+            info["source"] = "东方财富 · 7×24 全球财经快讯"
+            info["raw"] = (n.get("detail") or t)[:420]
+            info["relates"] = [tag] if tag != "个股与快讯" else ["财经要闻"]
+            items.append(info)
+            added2 += 1
+        c.record("官方新闻", "东财快讯补位", "-", "ok" if added2 else "partial",
+                 note=f"证券时报补位不足，用当日东财快讯真实标题补位 {added2} 条",
+                 count=added2)
+
     items.sort(key=lambda x: x["order"])
     c.mark("官方新闻", "ok" if len(items) >= 5 else "partial",
            f"精选 {len(items)} 条官方发布/要闻，{sum(1 for x in items if x['verified'])} 条来源可核验")

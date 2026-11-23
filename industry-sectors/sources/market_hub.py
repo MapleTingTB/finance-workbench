@@ -775,23 +775,39 @@ def install():
 # 供新闻模块直接调用的增强源（证券时报 / 雪球）
 # ---------------------------------------------------------------------------
 def stcn_news(limit=12):
-    """证券时报网要闻页真实标题（人民财讯 · 证券时报）。"""
-    try:
-        txt = _http("https://www.stcn.com/article/list/yw.html")
-        items = re.findall(r'<a[^>]+href="(/article/detail/\d+\.html)"[^>]*>([^<]{8,90})</a>', txt)
-        out, seen = [], set()
-        for href, title in items:
-            t = re.sub(r"\s+", "", title).strip()
-            if not t or t in seen:
+    """证券时报网要闻页真实标题（人民财讯 · 证券时报）。
+
+    多入口 fallback：GitHub Actions 出口 IP 偶发被 stcn.com 限流时，单一
+    yw.html 入口可能返回空/极少。改用「首页(链接最多) → 要闻列表」多入口，
+    任一入口采够即返回，显著提升云端环境命中率。全部失败才返回空（由上层
+    如实降级，不编造内容）。
+    """
+    entries = [
+        "https://www.stcn.com/",                      # 首页，实测 160+ 条链接
+        "https://www.stcn.com/article/list/yw.html",  # 要闻列表页
+    ]
+    out, seen = [], set()
+    for url in entries:
+        try:
+            txt = _http(url)
+            links = re.findall(
+                r'<a[^>]+href="([^"]*?/article/detail/\d+\.html)"[^>]*>([^<]{6,90})</a>', txt)
+            if not links:
                 continue
-            seen.add(t)
-            out.append({"title": t, "url": "https://www.stcn.com" + href,
-                        "source": "证券时报 · 人民财讯"})
+            for href, title in links:
+                t = re.sub(r"\s+", "", title).strip()
+                if not t or t in seen or len(t) < 6:
+                    continue
+                seen.add(t)
+                full = href if href.startswith("http") else "https://www.stcn.com" + href.lstrip("/")
+                out.append({"title": t, "url": full, "source": "证券时报 · 人民财讯"})
+                if len(out) >= limit:
+                    break
             if len(out) >= limit:
                 break
-        return out
-    except Exception:
-        return []
+        except Exception:
+            continue
+    return out
 
 
 def xueqiu_hots(limit=8):
