@@ -4,7 +4,7 @@
  * 四个模块页面已内联进 index.html，不再预缓存 pages/ 子页面。
  * 缓存版本由 scripts/build_workbench.py 按数据日期自动刷新。
  */
-const CACHE = 'fwb-6e6c4fafa2';
+const CACHE = 'fwb-7b13cebcf3';
 
 const ASSETS = [
   './',
