@@ -12,15 +12,21 @@ name: 理财工作台 · 工作日 13:30 更新 / 14:00 检测补跑
 #       全是当天 -> 跳过（幂等，不重复采集）
 #       任一非当天 -> 补跑一次更新
 #   手动触发 -> 无条件更新
+#   带 codes 输入的手动触发 -> 先用 codes 覆盖 watchlist.json，再无条件更新
+#     （供「指数跟踪」页面增删自选后即时同步，所有设备下次打开一致）
 on:
   schedule:
     - cron: '30 5 * * 1-5'   # 北京 13:30 主更新
     - cron: '0 6 * * 1-5'    # 北京 14:00 检测补跑
     - cron: '30 6 * * 1-5'   # 北京 14:30 检测补跑兜底
   workflow_dispatch:            # 可在 Actions 页面手动「立即更新」
+    inputs:
+      codes:
+        description: '自选基金代码（逗号分隔，6位）；留空则沿用现有清单'
+        required: false
+        type: string
+        default: ''
 
-# 不监听 push：避免 push 与定时/手动触发并发提交造成 non-fast-forward。
-# 提交步骤内置「对齐远程最新 HEAD」保护，排队运行也不会冲突。
 permissions:
   contents: write
 
@@ -47,7 +53,29 @@ jobs:
       - name: 安装依赖
         run: pip install -r requirements.txt
 
-      - name: 主更新（13:30 定时 / 手动触发）
+      - name: 应用自选清单（页面增删同步时传入 codes）
+        if: github.event_name == 'workflow_dispatch' && inputs.codes != ''
+        env:
+          CODES: ${{ inputs.codes }}
+        run: |
+          python3 - "$CODES" <<'PY'
+          import sys, json, pathlib
+          from datetime import datetime, timezone, timedelta
+          codes = [c.strip() for c in sys.argv[1].split(',') if c.strip().isdigit()]
+          if not codes:
+              print("未提供有效代码，沿用现有清单")
+              raise SystemExit(0)
+          p = pathlib.Path("index-tracking/data/watchlist.json")
+          d = json.loads(p.read_text("utf-8")) if p.exists() else {}
+          d["version"] = "1.0"
+          d["updatedAt"] = datetime.now(timezone(timedelta(hours=8))).date().isoformat()
+          d["note"] = "由指数跟踪页面增删自选后自动同步；每日 14:00 采集读取此清单。"
+          d["codes"] = codes
+          p.write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", "utf-8")
+          print("自选清单已覆盖为:", ",".join(codes))
+          PY
+
+      - name: 主更新（13:30 定时 / 手动触发 / 自选同步）
         if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 5 * * 1-5'
         # 内置保护：某模块采集失败或数据降级时自动沿用上一版，绝不发布坏数据
         run: python3 finance-workbench/scripts/daily_update.py --deploy
@@ -66,11 +94,9 @@ jobs:
         run: |
           git config user.name  "workbench-bot"
           git config user.email "workbench-bot@users.noreply.github.com"
-          # 排队运行的 checkout SHA 可能已过期：先把 HEAD 对齐远程最新，
-          # --mixed 只重置 HEAD 与索引，工作区里刚生成的产物完整保留。
           git fetch origin main
           git reset --mixed FETCH_HEAD
-          git add docs/ \
+          git add docs/ index-tracking/data/watchlist.json \
             finance-news/index.html industry-sectors/index.html \
             index-tracking/index.html bond-funds/index.html
           if git diff --cached --quiet; then
